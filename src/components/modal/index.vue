@@ -1,26 +1,24 @@
 <template>
-  <teleport to="body">
-    <div
-      class="cdk-modal"
-      :class="{ 'cdk-modal-show': visible }"
-      :style="{ width: width }"
-    >
-      <div class="cdk-modal-header">
-        <span>{{ title }}</span>
-      </div>
-      <div class="cdk-modal-body">
-        <slot name="body"></slot>
-      </div>
-      <div class="cdk-modal-footer">
-        <button type="button">取消</button>
-        <button type="button">确定</button>
-      </div>
+  <div
+    class="cdk-modal"
+    :class="{ 'cdk-modal-show': visible }"
+    :style="{ width: width }"
+  >
+    <div class="cdk-modal-header">
+      <span>{{ title }}</span>
     </div>
-  </teleport>
+    <div ref="content" class="cdk-modal-body">
+      <slot name="content"></slot>
+    </div>
+    <div class="cdk-modal-footer">
+      <button type="button">取消</button>
+      <button type="button">确定</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, getCurrentInstance, render } from 'vue';
 
 export default defineComponent({
   props: {
@@ -47,6 +45,14 @@ export default defineComponent({
     },
   },
   setup(props, vm) {
+    const _this = getCurrentInstance()?.proxy;
+
+    onMounted(() => {
+      if (_this) {
+        console.log(props.content, _this?.$refs.content);
+        render(props.content, _this?.$refs.content as HTMLElement);
+      }
+    });
     return {};
   },
 });
