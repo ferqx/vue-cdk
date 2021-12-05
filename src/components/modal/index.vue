@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, getCurrentInstance, render } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -29,7 +29,7 @@ export default defineComponent({
       type: null,
     },
     title: {
-      type: Boolean,
+      type: String,
       default: false,
     },
     content: {
@@ -44,15 +44,7 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props, vm) {
-    const _this = getCurrentInstance()?.proxy;
-
-    onMounted(() => {
-      if (_this) {
-        console.log(props.content, _this?.$refs.content);
-        render(props.content, _this?.$refs.content as HTMLElement);
-      }
-    });
+  setup() {
     return {};
   },
 });

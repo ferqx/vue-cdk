@@ -17,17 +17,15 @@ const container = document.body;
 export async function Modal() {}
 
 Modal.create = (props: ModalProps) => {
-  if (!props) {
+  const { content } = props;
+
+  if (!props || !content) {
     return;
   }
 
-  const { content } = props;
-
-  const vNode = h(ModalComponent as any, props);
-
-  if (vNode.props) {
-    vNode.props.content = h(content, props.params);
-  }
+  const vNode = h(ModalComponent as any, props, {
+    content: h(content, props.params),
+  });
 
   render(vNode, container);
 };
